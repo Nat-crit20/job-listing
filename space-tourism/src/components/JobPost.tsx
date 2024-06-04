@@ -1,5 +1,9 @@
 // import './JobPost.css'
 import { FC } from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 
 interface job {
   job: {
@@ -22,7 +26,12 @@ interface job {
 const JobPost: FC<job> = ({ job }) => {
   return (
     <div>
-      <h2>{job.position}</h2>
+      <Card variant="outlined" sx={{ minWidth: 600 }}>
+        <CardContent>
+          <h2>{job.position}</h2>
+          <img src={job.logo} alt="" />
+        </CardContent>
+      </Card>
     </div>
   );
 };
