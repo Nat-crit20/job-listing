@@ -30,6 +30,16 @@ const JobPost: FC<job> = ({ job }) => {
         <CardContent>
           <h2>{job.position}</h2>
           <img src={job.logo} alt="" />
+          <Stack direction="row" spacing={1}>
+            <Chip label={job.role} />
+            <Chip label={job.level} />
+            {job.languages.map((language) => {
+              return <Chip label={language} />;
+            })}
+            {job.tools.map((tool) => {
+              return <Chip label={tool} />;
+            })}
+          </Stack>
         </CardContent>
       </Card>
     </div>
