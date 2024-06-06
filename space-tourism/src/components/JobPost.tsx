@@ -21,23 +21,44 @@ interface job {
     languages: [string];
     tools: [string];
   };
+  handleFilter: (filter: {
+    role: string;
+    level?: string;
+    languages?: string[];
+    tools?: string[];
+  }) => void;
 }
 
-const JobPost: FC<job> = ({ job }) => {
+const JobPost: FC<job> = ({ job, handleFilter }) => {
+  const submitFilter = () => {
+    handleFilter({
+      role: "Frontend",
+      level: "Junior",
+      languages: ["JavaScript"],
+      tools: ["Sass"],
+    });
+    console.log("Click");
+  };
   return (
     <div>
       <Card variant="outlined" sx={{ minWidth: 600 }}>
         <CardContent>
-          <h2>{job.position}</h2>
           <img src={job.logo} alt="" />
           <Stack direction="row" spacing={1}>
-            <Chip label={job.role} />
-            <Chip label={job.level} />
+            <Chip variant="outlined" label={job.company} />
+            {job.new && <Chip label="New" />}
+            {job.featured && <Chip label="Featured" />}
+          </Stack>
+          <h2>{job.position}</h2>
+
+          <Stack direction="row" spacing={1}>
+            <Chip label={job.role} onClick={submitFilter} />
+            <Chip label={job.level} onClick={submitFilter} />
             {job.languages.map((language) => {
-              return <Chip label={language} />;
+              return <Chip label={language} onClick={submitFilter} />;
             })}
             {job.tools.map((tool) => {
-              return <Chip label={tool} />;
+              return <Chip label={tool} onClick={submitFilter} />;
             })}
           </Stack>
         </CardContent>
