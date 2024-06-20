@@ -25,7 +25,26 @@ interface job {
 const App: FC<AppProps> = ({ title }) => {
   const [jobs, setJobs] = useState([]);
   const [currentJobs, setCurrentJobs] = useState([]);
-
+  const [jobRole, setRole] = useState<string>("");
+  const [jobLevel, setLevel] = useState<string>("");
+  const [jobLang, setJobLang] = useState<string[]>([]);
+  const [jobTools, setJobTools] = useState<string[]>([]);
+  const handleSetRole = (role: string) => {
+    setRole(role);
+  };
+  const handleSetLevel = (level: string) => {
+    setLevel(level);
+  };
+  const handleSetLang = (language: string) => {
+    if (!jobLang.includes(language)) {
+      setJobLang((lang) => [...lang, language]);
+    }
+  };
+  const handleSetTool = (tool: string) => {
+    if (!jobTools.includes(tool)) {
+      setJobTools((to) => [...to, tool]);
+    }
+  };
   useEffect(() => {
     const getJobs = () => {
       try {
@@ -43,7 +62,6 @@ const App: FC<AppProps> = ({ title }) => {
     };
     getJobs();
   }, []);
-
   const handleFilter = (filters: {
     role?: string;
     level?: string;
@@ -64,10 +82,13 @@ const App: FC<AppProps> = ({ title }) => {
         const jobLang = new Map();
 
         for (const lang in job.languages) {
-          jobLang.set(lang, lang);
+          const temp = job.languages[lang];
+          jobLang.set(temp, temp);
         }
         for (const lang in languages) {
-          if (!jobLang.get(lang)) {
+          //If the lang is not in the job list return
+          const temp = languages[lang];
+          if (!jobLang.get(temp)) {
             return;
           }
         }
@@ -76,10 +97,13 @@ const App: FC<AppProps> = ({ title }) => {
         const jobTool = new Map();
 
         for (const tool in job.tools) {
-          jobTool.set(tool, tool);
+          const temp = job.tools[tool];
+          jobTool.set(temp, temp); // Use the tool's name as the key and its data as the value
         }
         for (const tool in tools) {
-          if (!jobTool.get(tool)) {
+          const temp = tools[tool];
+
+          if (!jobTool.get(temp)) {
             return;
           }
         }
@@ -89,6 +113,15 @@ const App: FC<AppProps> = ({ title }) => {
     console.log(newJobs);
     setCurrentJobs(newJobs);
   };
+  useEffect(() => {
+    handleFilter({
+      role: jobRole,
+      level: jobLevel,
+      languages: jobLang,
+      tools: jobTools,
+    });
+    console.log("Click");
+  }, [jobRole, jobLevel, jobLang, jobTools]);
 
   return (
     <div>
@@ -96,7 +129,13 @@ const App: FC<AppProps> = ({ title }) => {
       {currentJobs.map((job) => {
         return (
           <div>
-            <JobPost job={job} handleFilter={handleFilter} />
+            <JobPost
+              job={job}
+              handleSetRole={handleSetRole}
+              handleSetLevel={handleSetLevel}
+              handleSetLang={handleSetLang}
+              handleSetTool={handleSetTool}
+            />
           </div>
         );
       })}

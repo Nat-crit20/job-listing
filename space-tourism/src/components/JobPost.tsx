@@ -21,24 +21,20 @@ interface job {
     languages: [string];
     tools: [string];
   };
-  handleFilter: (filter: {
-    role: string;
-    level?: string;
-    languages?: string[];
-    tools?: string[];
-  }) => void;
+
+  handleSetRole: (role: string) => void;
+  handleSetLevel: (level: string) => void;
+  handleSetLang: (language: string) => void;
+  handleSetTool: (tool: string) => void;
 }
 
-const JobPost: FC<job> = ({ job, handleFilter }) => {
-  const submitFilter = () => {
-    handleFilter({
-      role: "Frontend",
-      level: "Junior",
-      languages: ["JavaScript"],
-      tools: ["Sass"],
-    });
-    console.log("Click");
-  };
+const JobPost: FC<job> = ({
+  job,
+  handleSetLang,
+  handleSetLevel,
+  handleSetRole,
+  handleSetTool,
+}) => {
   return (
     <div>
       <Card variant="outlined" sx={{ minWidth: 600 }}>
@@ -52,13 +48,37 @@ const JobPost: FC<job> = ({ job, handleFilter }) => {
           <h2>{job.position}</h2>
 
           <Stack direction="row" spacing={1}>
-            <Chip label={job.role} onClick={submitFilter} />
-            <Chip label={job.level} onClick={submitFilter} />
+            <Chip
+              label={job.role}
+              onClick={() => {
+                handleSetRole(job.role);
+              }}
+            />
+            <Chip
+              label={job.level}
+              onClick={() => {
+                handleSetLevel(job.level);
+              }}
+            />
             {job.languages.map((language) => {
-              return <Chip label={language} onClick={submitFilter} />;
+              return (
+                <Chip
+                  label={language}
+                  onClick={() => {
+                    handleSetLang(language);
+                  }}
+                />
+              );
             })}
             {job.tools.map((tool) => {
-              return <Chip label={tool} onClick={submitFilter} />;
+              return (
+                <Chip
+                  label={tool}
+                  onClick={() => {
+                    handleSetTool(tool);
+                  }}
+                />
+              );
             })}
           </Stack>
         </CardContent>
