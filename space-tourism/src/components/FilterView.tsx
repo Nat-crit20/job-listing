@@ -7,6 +7,10 @@ interface FilterViewProps {
   jobLevel: string;
   jobLang: string[];
   jobTools: string[];
+  handleRemoveRole: () => void;
+  handleRemoveLevel: () => void;
+  handleRemoveLang: (language: string) => void;
+  handleRemoveTool: (tool: string) => void;
 }
 
 const FilterView: FC<FilterViewProps> = ({
@@ -14,17 +18,26 @@ const FilterView: FC<FilterViewProps> = ({
   jobLevel,
   jobRole,
   jobTools,
+  handleRemoveLang,
+  handleRemoveLevel,
+  handleRemoveRole,
+  handleRemoveTool,
 }) => {
   return (
     <div>
       <Stack direction="row" spacing={1}>
-        <Chip label={jobRole} />
-        <Chip label={jobLevel} />
+        {jobRole.length > 0 ? (
+          <Chip label={jobRole} onClick={handleRemoveRole} />
+        ) : null}
+        {jobLevel.length > 0 ? (
+          <Chip label={jobLevel} onClick={handleRemoveLevel} />
+        ) : null}
+
         {jobLang.map((lang) => {
-          return <Chip label={lang} />;
+          return <Chip label={lang} onClick={() => handleRemoveLang(lang)} />;
         })}
         {jobTools.map((tool) => {
-          return <Chip label={tool} />;
+          return <Chip label={tool} onClick={() => handleRemoveTool(tool)} />;
         })}
       </Stack>
     </div>

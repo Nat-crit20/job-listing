@@ -33,17 +33,42 @@ const App: FC<AppProps> = ({ title }) => {
   const handleSetRole = (role: string) => {
     setRole(role);
   };
+  const handleRemoveRole = () => {
+    setRole("");
+  };
+
   const handleSetLevel = (level: string) => {
     setLevel(level);
+  };
+  const handleRemoveLevel = () => {
+    setLevel("");
   };
   const handleSetLang = (language: string) => {
     if (!jobLang.includes(language)) {
       setJobLang((lang) => [...lang, language]);
     }
   };
+  const handleRemoveLang = (language: string) => {
+    if (jobLang.includes(language)) {
+      setJobLang((lang) =>
+        lang.filter((l) => {
+          return l !== language;
+        })
+      );
+    }
+  };
   const handleSetTool = (tool: string) => {
     if (!jobTools.includes(tool)) {
       setJobTools((to) => [...to, tool]);
+    }
+  };
+  const handleRemoveTool = (tool: string) => {
+    if (jobTools.includes(tool)) {
+      setJobTools((to) =>
+        to.filter((t) => {
+          return t !== tool;
+        })
+      );
     }
   };
   useEffect(() => {
@@ -133,6 +158,10 @@ const App: FC<AppProps> = ({ title }) => {
         jobLevel={jobLevel}
         jobLang={jobLang}
         jobTools={jobTools}
+        handleRemoveRole={handleRemoveRole}
+        handleRemoveLevel={handleRemoveLevel}
+        handleRemoveLang={handleRemoveLang}
+        handleRemoveTool={handleRemoveTool}
       />
       {currentJobs.map((job) => {
         return (
