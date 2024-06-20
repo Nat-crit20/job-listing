@@ -1,6 +1,7 @@
 import "./App.css";
 import { FC, useEffect, useState } from "react";
 import JobPost from "./components/JobPost";
+import FilterView from "./components/FilterView";
 
 interface AppProps {
   title: string;
@@ -113,6 +114,7 @@ const App: FC<AppProps> = ({ title }) => {
     console.log(newJobs);
     setCurrentJobs(newJobs);
   };
+
   useEffect(() => {
     handleFilter({
       role: jobRole,
@@ -126,6 +128,12 @@ const App: FC<AppProps> = ({ title }) => {
   return (
     <div>
       <h1>{title}</h1>
+      <FilterView
+        jobRole={jobRole}
+        jobLevel={jobLevel}
+        jobLang={jobLang}
+        jobTools={jobTools}
+      />
       {currentJobs.map((job) => {
         return (
           <div>
