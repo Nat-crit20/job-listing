@@ -24,8 +24,8 @@ interface job {
 }
 
 const App: FC<AppProps> = ({ title }) => {
-  const [jobs, setJobs] = useState([]);
-  const [currentJobs, setCurrentJobs] = useState([]);
+  const [jobs, setJobs] = useState<job[]>([]);
+  const [currentJobs, setCurrentJobs] = useState<job[]>([]);
   const [jobRole, setRole] = useState<string>("");
   const [jobLevel, setLevel] = useState<string>("");
   const [jobLang, setJobLang] = useState<string[]>([]);
